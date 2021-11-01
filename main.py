@@ -3,6 +3,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
 
+from kivy.lang import Builder
+
 from recordmodule import RecorderClass
 
 from initialisemodule import Initialise
@@ -11,6 +13,13 @@ from endmodule import EndConversation
 import scrapingmodule as find_answer
 import speak_module
 import time
+
+from kivy.utils import platform
+from android.permissions import request_permissions,Permission
+
+if platform == 'android':
+    request_permissions([Permission.RECORD_AUDIO, Permission.INTERNET])
+
 
 global coversation_messages
 
@@ -113,8 +122,17 @@ class InformationSection(BoxLayout):
 class MainWidgetSection(GridLayout):
     pass
 
+global kvfile
+kvfile = Builder.load_file("./TheLab.kv")
+
+
+
+
 class TheLabApp(App):
-    pass
+    
+    global kvfile
+    def build(self):
+        return kvfile
 
 
 app = TheLabApp()
